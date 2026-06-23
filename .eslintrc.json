@@ -1,0 +1,81 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "google",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:import/recommended",
+    "plugin:promise/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": [
+    "react",
+    "react-hooks",
+    "jsx-a11y",
+    "import",
+    "promise",
+    "unused-imports",
+    "prettier"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "react/no-unknown-property": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "require-jsdoc": "off",
+    "react/react-in-jsx-scope": "off",
+    "no-var": "error",
+    "no-console": "off",
+    "semi": "error",
+    "no-undef": "error",
+    "no-multiple-empty-lines": "error",
+    "no-useless-return": "warn",
+    "react/prop-types": "off",
+    "no-empty": ["error", { "allowEmptyCatch": true }],
+    "prettier/prettier": "error",
+    "no-unused-vars": "off",
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "error", 
+      { 
+        "vars": "all", 
+        "varsIgnorePattern": "^_", 
+        "args": "after-used", 
+        "argsIgnorePattern": "^_" 
+      }
+    ],
+    "jsx-a11y/media-has-caption": "off"
+  },
+  "ignorePatterns": [
+    "assets/controllers/*",
+    "assets/bootstrap.js",
+    "*.json"
+  ],
+  "overrides": [
+    {
+      "files": ["assets/main.js"],
+      "rules": {
+        "import/no-unresolved": "off",
+        "n/no-missing-import": "off"
+      }
+    }
+  ]
+}
