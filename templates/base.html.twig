@@ -7,8 +7,8 @@
         <link rel="icon" href="/favicon.png">
         <link rel="manifest" href="/build/pwa/manifest.json" />
         {% block stylesheets %}
-            {{ encore_entry_link_tags('main') }}
             {{ encore_entry_link_tags('style/main') }}
+            {{ encore_entry_link_tags('main') }}
         {% endblock %}
 
         {% set frankenphpHotReload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
@@ -17,9 +17,13 @@
         <script src="https://cdn.jsdelivr.net/npm/idiomorph"></script>
         <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
         {% endif %}
+
+        <link rel="manifest" href="/build/pwa/manifest.json" />
     </head>
     <body>
-         {% block body %}{% endblock %}
+        {% block body %}
+            <div id="root"></div>
+        {% endblock %}
         {% block javascripts %}
             {{ encore_entry_script_tags('main') }}
         {% endblock %}

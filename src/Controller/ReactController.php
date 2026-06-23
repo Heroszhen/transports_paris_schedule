@@ -13,6 +13,6 @@ class ReactController extends AbstractController
     #[Route('/{reactRouting}', name: 'app_default', requirements: ['reactRouting' => '^(?!api).+'], defaults: ['reactRouting' => null], priority: -100)]
     public function index(): Response
     {
-        return $this->render('react/index.html.twig');
+        return $this->render('base.html.twig');
     }
 }
