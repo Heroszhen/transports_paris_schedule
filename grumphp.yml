@@ -16,6 +16,7 @@ grumphp:
             - 'VarDumper'
       ignore_patterns:
         - /^public\/libs\/.*/
+        - /^config\/reference\.php$/
       triggered_by: [php]
     phpstan:
       configuration: 'phpstan.neon'
