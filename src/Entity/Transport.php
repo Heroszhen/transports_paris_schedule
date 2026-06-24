@@ -29,6 +29,9 @@ class Transport
     #[ORM\OneToMany(targetEntity: Line::class, mappedBy: 'transport', orphanRemoval: true)]
     private Collection $lines;
 
+    #[ORM\ManyToOne(inversedBy: 'transports')]
+    private ?TransportType $transportType = null;
+
     public function __construct()
     {
         $this->lines = new ArrayCollection();
@@ -89,6 +92,18 @@ class Transport
                 $line->setTransport(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTransportType(): ?TransportType
+    {
+        return $this->transportType;
+    }
+
+    public function setTransportType(?TransportType $transportType): static
+    {
+        $this->transportType = $transportType;
 
         return $this;
     }
