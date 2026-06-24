@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
+use App\Controller\Action\GetUserByToken;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -14,6 +15,12 @@ use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(
     operations: [
+        new Get(
+            name: 'getUserByToken',
+            uriTemplate: '/users/profile',
+            controller: GetUserByToken::class,
+            read: false
+        ),
         new Get(
             security: "is_granted('ROLE_ADMIN') or object.owner == user"
         ),

@@ -1,0 +1,22 @@
+{
+  "short_name": "Movies",
+  "name": "Movies",
+  "icons": [
+    {
+      "src": "../pwa/images/movie-projector-64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "../pwa/images/movie-projector-256.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "linear-gradient(to bottom, #a11f3c 0%, #9352b3 100%)",
+  "background_color": "#fff",
+  "scope": "./",
+  "orientation": "any"
+}

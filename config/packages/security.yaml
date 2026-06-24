@@ -21,6 +21,8 @@ security:
       pattern: ^/api/login
       stateless: true
       json_login:
+        username_path: email
+        password_path: password
         check_path: /api/login_check # Doit correspondre à la route créée à l'étape 2
         success_handler: lexik_jwt_authentication.handler.authentication_success
         failure_handler: lexik_jwt_authentication.handler.authentication_failure
