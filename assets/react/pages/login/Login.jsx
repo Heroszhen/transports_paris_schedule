@@ -95,9 +95,7 @@ const Login = () => {
           </div>
           <div className="col-12 d-grid gap-2 mb-3">
             <button type="submit" className="btn btn-primary">
-              Envoyer
-              <br />
-              发送
+              Envoyer/发送
             </button>
           </div>
         </form>
