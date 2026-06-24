@@ -61,7 +61,7 @@ class AddTransportTypeByFileCommand extends Command
         $updated = 0;
         $types = $this->fileService->readCSV($filePath);
         foreach ($types as $key => $type) {
-            if (0 === $key) {
+            if (0 === $key || empty($type)) {
                 continue;
             }
 

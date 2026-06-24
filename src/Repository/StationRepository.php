@@ -4,39 +4,39 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\Transport;
+use App\Entity\Station;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Transport>
+ * @extends ServiceEntityRepository<Station>
  */
-class TransportRepository extends ServiceEntityRepository
+class StationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Transport::class);
+        parent::__construct($registry, Station::class);
     }
 
     //    /**
-    //     * @return Transport[] Returns an array of Transport objects
+    //     * @return Station[] Returns an array of Station objects
     //     */
     //    public function findByExampleField($value): array
     //    {
-    //        return $this->createQueryBuilder('t')
-    //            ->andWhere('t.exampleField = :val')
+    //        return $this->createQueryBuilder('s')
+    //            ->andWhere('s.exampleField = :val')
     //            ->setParameter('val', $value)
-    //            ->orderBy('t.id', 'ASC')
+    //            ->orderBy('s.id', 'ASC')
     //            ->setMaxResults(10)
     //            ->getQuery()
     //            ->getResult()
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Transport
+    //    public function findOneBySomeField($value): ?Station
     //    {
-    //        return $this->createQueryBuilder('t')
-    //            ->andWhere('t.exampleField = :val')
+    //        return $this->createQueryBuilder('s')
+    //            ->andWhere('s.exampleField = :val')
     //            ->setParameter('val', $value)
     //            ->getQuery()
     //            ->getOneOrNullResult()

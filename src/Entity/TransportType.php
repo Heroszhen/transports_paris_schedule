@@ -24,14 +24,14 @@ class TransportType
     private ?string $label = null;
 
     /**
-     * @var Collection<int, Transport>
+     * @var Collection<int, Line>
      */
-    #[ORM\OneToMany(targetEntity: Transport::class, mappedBy: 'transportType')]
-    private Collection $transports;
+    #[ORM\OneToMany(targetEntity: Line::class, mappedBy: 'transportType', orphanRemoval: true)]
+    private Collection $lines;
 
     public function __construct()
     {
-        $this->transports = new ArrayCollection();
+        $this->lines = new ArrayCollection();
     }
 
     public function getId(): int
@@ -64,29 +64,29 @@ class TransportType
     }
 
     /**
-     * @return Collection<int, Transport>
+     * @return Collection<int, Line>
      */
-    public function getTransports(): Collection
+    public function getLines(): Collection
     {
-        return $this->transports;
+        return $this->lines;
     }
 
-    public function addTransport(Transport $transport): static
+    public function addLine(Line $line): static
     {
-        if (!$this->transports->contains($transport)) {
-            $this->transports->add($transport);
-            $transport->setTransportType($this);
+        if (!$this->lines->contains($line)) {
+            $this->lines->add($line);
+            $line->setTransportType($this);
         }
 
         return $this;
     }
 
-    public function removeTransport(Transport $transport): static
+    public function removeLine(Line $line): static
     {
-        if ($this->transports->removeElement($transport)) {
+        if ($this->lines->removeElement($line)) {
             // set the owning side to null (unless already changed)
-            if ($transport->getTransportType() === $this) {
-                $transport->setTransportType(null);
+            if ($line->getTransportType() === $this) {
+                $line->setTransportType(null);
             }
         }
 
