@@ -65,7 +65,7 @@ class AddTransportTypeByFileCommand extends Command
                 continue;
             }
 
-            $found = $this->transportTypeRepository->findOneBy(['label' => $type[1]]);
+            $found = $this->transportTypeRepository->findOneBy(['name' => $type[0]]);
             if ($found instanceof TransportType) {
                 ++$updated;
             } else {
