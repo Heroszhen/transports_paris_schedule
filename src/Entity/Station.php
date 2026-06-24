@@ -25,6 +25,9 @@ class Station
     #[ORM\JoinColumn(nullable: false)]
     private ?Line $line = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $stopId = null;
+
     public function getId(): int
     {
         return $this->id;
@@ -62,6 +65,18 @@ class Station
     public function setLine(?Line $line): static
     {
         $this->line = $line;
+
+        return $this;
+    }
+
+    public function getStopId(): ?string
+    {
+        return $this->stopId;
+    }
+
+    public function setStopId(?string $stopId): static
+    {
+        $this->stopId = $stopId;
 
         return $this;
     }
