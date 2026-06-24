@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './App.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
-import useUserStore, { getUser } from './stores/userStore';
-import RoutesWrapper from './routes/RoutesWrapper';
+import useUserStore, { getUser } from './stores/userStore.js';
+import RoutesWrapper from './routes/RoutesWrapper.jsx';
 
 function App() {
   const [canQuery, setCanQuery] = useState(false);
@@ -52,10 +52,12 @@ function App() {
     })();
   }, []);
 
-  return (<>
-     <main className="min-vh-100">
+  return (
+    <>
+      <main className="min-vh-100">
         <RoutesWrapper canQuery={canQuery} />
       </main>
-  </>);
+    </>
+  );
 }
 export default App;

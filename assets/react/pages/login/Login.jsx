@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import useUserStore, { getAuth } from '../../stores/userStore';
+import useUserStore, { getAuth } from '../../stores/userStore.js';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
@@ -19,15 +19,11 @@ const Login = () => {
   }, [user]);
 
   useEffect(() => {
-    resetLoginForm();
-  }, []);
-
-  const resetLoginForm = () => {
     reset({
       email: null,
       password: null,
     });
-  };
+  }, []);
 
   const onSubmit = async (data) => {
     localStorage.removeItem('token');
@@ -39,21 +35,22 @@ const Login = () => {
       <section className="vh-100 d-flex justify-content-center align-items-center bg-[#b2cce5]">
         <form className="bg-white p-3 rounded w-[320px]" onSubmit={handleSubmit(onSubmit)}>
           <section className="text-center">
-            <div className="text-[#1a1a76]">
-              RATP
-            </div>
+            <div className="text-[#1a1a76]">RATP</div>
             <h2 className="mb-4 text-[#1a1a76]">
-              Bonjour<br />
+              Bonjour
+              <br />
               你好
             </h2>
             <h5 className="text-[#159d88]">
-              Connexion<br />
+              Connexion
+              <br />
               登录
             </h5>
           </section>
           <div className="col-12 mb-3">
             <label htmlFor="email" className="form-label">
-              Mail*<br />
+              Mail*
+              <br />
               邮箱*
             </label>
             <input
@@ -72,7 +69,8 @@ const Login = () => {
           </div>
           <div className="col-12 mb-3">
             <label htmlFor="password" className="form-label">
-              Mot de passe*<br />
+              Mot de passe*
+              <br />
               密码
             </label>
             <div className="input-group">
@@ -97,7 +95,8 @@ const Login = () => {
           </div>
           <div className="col-12 d-grid gap-2 mb-3">
             <button type="submit" className="btn btn-primary">
-              Envoyer<br />
+              Envoyer
+              <br />
               发送
             </button>
           </div>
