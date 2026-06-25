@@ -22,6 +22,7 @@ use Symfony\Component\Filesystem\Filesystem;
 /**
  * @exempl  php bin/console app:add-line-by-file "abc.csv"
  *
+ * ID_Line(index-0)
  * ShortName_Line(index-2)
  * TransportMode(index-3):bus, metro, rail, tramway
  */
@@ -86,13 +87,13 @@ class AddLineByFileCommand extends Command
 
             if (!isset($types[$row[3]])) {
                 $io->writeln('');
-                $io->error(sprintf('row %s: type %s does not exist for line %s', $key, $row[3], $row['2']));
+                $io->error(sprintf('row %s: type %s does not exist for line %s', $key, $row[3], $row[2]));
                 $io->writeln('');
                 continue;
             }
 
             try {
-                $line = $this->lineRepository->findOneBy(['name' => $row['2'], 'transportType' => $types[$row[3]]]);
+                $line = $this->lineRepository->findOneBy(['name' => $row[2], 'transportType' => $types[$row[3]]]);
                 if ($line instanceof Line) {
                     ++$updated;
                 } else {
@@ -101,8 +102,9 @@ class AddLineByFileCommand extends Command
                 }
 
                 $line
-                    ->setName($row['2'])
-                    ->setLabel($row['2'])
+                    ->setLineId($row[0])
+                    ->setName($row[2])
+                    ->setLabel($row[2])
                     ->setTransportType($types[$row[3]]);
 
                 $this->entityManager->persist($line);

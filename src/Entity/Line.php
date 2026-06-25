@@ -33,6 +33,9 @@ class Line
     #[ORM\OneToMany(targetEntity: Station::class, mappedBy: 'line', orphanRemoval: true)]
     private Collection $stations;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $lineId = null;
+
     public function __construct()
     {
         $this->stations = new ArrayCollection();
@@ -105,6 +108,18 @@ class Line
                 $station->setLine(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLineId(): ?string
+    {
+        return $this->lineId;
+    }
+
+    public function setLineId(?string $lineId): static
+    {
+        $this->lineId = $lineId;
 
         return $this;
     }
