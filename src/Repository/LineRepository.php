@@ -42,4 +42,15 @@ class LineRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findIdByLineId(string $lineId): bool|int
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $query = 'SELECT id FROM line WHERE line_id = :lineId';
+        $params = [
+            'lineId' => $lineId,
+        ];
+
+        return $conn->fetchOne($query, $params);
+    }
 }

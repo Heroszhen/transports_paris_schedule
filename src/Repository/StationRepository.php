@@ -42,4 +42,55 @@ class StationRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findIdByStopId(string $stopId): bool|int
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $query = 'SELECT id FROM station WHERE stop_id = :stopId';
+        $params = [
+            'stopId' => $stopId,
+        ];
+
+        return $conn->fetchOne($query, $params);
+    }
+
+    public function saveStations(array $stationsToInsert, array $stationsToUpdate): void
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $conn->beginTransaction();
+        try {
+            if (!empty($stationsToInsert)) {
+                $sql = '
+                    INSERT INTO station (name, label, stop_id, line_id)
+                    VALUES (:name, :label, :stop_id, :line_id)
+                ';
+
+                foreach ($stationsToInsert as $station) {
+                    try {
+                        $conn->executeStatement($sql, $station);
+                    } catch (\Exception $e) {
+                        throw $e;
+                    }
+                }
+            }
+
+            if (!empty($stationsToUpdate)) {
+                foreach ($stationsToUpdate as $id => $station) {
+                    $conn->update(
+                        'station',
+                        $station,
+                        ['id' => $id]
+                    );
+                }
+            }
+
+            $conn->commit();
+        } catch (\Throwable $e) {
+            if ($conn->isTransactionActive()) {
+                $conn->rollBack();
+            }
+
+            throw $e;
+        }
+    }
 }

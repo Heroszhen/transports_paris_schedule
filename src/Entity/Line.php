@@ -33,7 +33,7 @@ class Line
     #[ORM\OneToMany(targetEntity: Station::class, mappedBy: 'line', orphanRemoval: true)]
     private Collection $stations;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true, unique: true)]
     private ?string $lineId = null;
 
     public function __construct()

@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Entity\Line;
-use App\Entity\TransportType;
 use App\Repository\LineRepository;
-use App\Repository\TransportTypeRepository;
+use App\Repository\StationRepository;
 use App\Service\FileService;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -20,24 +17,23 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * @exempl  php bin/console app:add-line-by-file "referentiel-des-lignes.csv"
+ * @exempl  php bin/console app:add-station-by-file "arrets-lignes.csv"
  *
  * ID_Line(index-0)
- * ShortName_Line(index-2)
- * TransportMode(index-3):bus, metro, rail, tramway
+ * stop_id(index-2)
+ * stop_name(index-3)
  */
 #[AsCommand(
-    name: 'app:add-line-by-file',
-    description: 'Read one csv file to add lines',
+    name: 'app:add-station-by-file',
+    description: 'Read one csv file to add stations',
 )]
-class AddLineByFileCommand extends Command
+class AddStationByFileCommand extends Command
 {
-    public const BATCH = 500;
+    public const BATCH = 100;
 
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
         private readonly LineRepository $lineRepository,
-        private readonly TransportTypeRepository $transportTypeRepository,
+        private readonly StationRepository $stationRepository,
         private readonly Filesystem $filesystem,
         private readonly FileService $fileService,
         #[Autowire('%kernel.project_dir%')]
@@ -66,12 +62,9 @@ class AddLineByFileCommand extends Command
             return Command::FAILURE;
         }
 
-        $transportTypes = $this->transportTypeRepository->findAll();
-        $types = [];
-        foreach ($transportTypes as $tt) {
-            /** @var TransportType $tt */
-            $types[$tt->getName()] = $tt;
-        }
+        $idLine = null;
+        $stationsToInsert = [];
+        $stationsToUpdate = [];
 
         $created = 0;
         $updated = 0;
@@ -85,44 +78,62 @@ class AddLineByFileCommand extends Command
 
             $io->progressAdvance();
 
-            if (!isset($types[$row[3]])) {
-                $io->writeln('');
-                $io->error(sprintf('row %s: type %s does not exist for line %s', $key, $row[3], $row[2]));
-                $io->writeln('');
-                continue;
-            }
-
             try {
-                $line = $this->lineRepository->findOneBy(['name' => $row[2], 'transportType' => $types[$row[3]]]);
-                if ($line instanceof Line) {
-                    ++$updated;
-                } else {
-                    ++$created;
-                    $line = new Line();
+                $idTab = explode(':', $row[0]);
+                $lineId = count($idTab) > 1 ? $idTab[1] : $idTab[0];
+                $idLine = $this->lineRepository->findIdByLineId($lineId);
+
+                if (!is_int($idLine)) {/*
+                    $this->showErrorMessage(
+                        $io,
+                        sprintf('row %s: line %s is not found', $key, $lineId)
+                    );*/
+                    continue;
                 }
 
-                $line
-                    ->setLineId($row[0])
-                    ->setName($row[2])
-                    ->setLabel($row[2])
-                    ->setTransportType($types[$row[3]]);
+                $station = [
+                    'name' => $row[3],
+                    'label' => $row[3],
+                    'stop_id' => $row[2],
+                    'line_id' => $idLine,
+                ];
 
-                $this->entityManager->persist($line);
-                $this->entityManager->flush();
+                $idStation = $this->stationRepository->findIdByStopId($row[2]);
+                if (is_int($idStation)) {
+                    ++$updated;
+                    $stationsToUpdate[$idStation] = $station;
+                } else {
+                    ++$created;
+                    $stationsToInsert[$row[2]] = $station;
+                }
+
+                if ((count($stationsToInsert) + count($stationsToUpdate)) === self::BATCH) {
+                    $this->stationRepository->saveStations($stationsToInsert, $stationsToUpdate);
+                    $stationsToInsert = [];
+                    $stationsToUpdate = [];
+                }
             } catch (\Throwable $e) {
-                $io->writeln('');
-                $io->error(sprintf('row %s: line %s enter into exception because of %s', $key, $row[2], $e->getMessage()));
-                $io->writeln('');
-
+                $this->showErrorMessage(
+                    $io,
+                    sprintf('row %s: station %s enter into exception because of %s', $key, $row[3], $e->getMessage())
+                );
                 $io->progressAdvance();
             }
         }
 
-        $io->progressFinish();
+        $this->stationRepository->saveStations($stationsToInsert, $stationsToUpdate);
 
+        $io->progressFinish();
         $io->info('AddLineByFileCommand - end:'.(new \DateTime())->format('d/m/Y h:i:s'));
         $io->success(sprintf('created: %s | updated: %s', $created, $updated));
 
         return Command::SUCCESS;
+    }
+
+    private function showErrorMessage(SymfonyStyle $io, string $msg): void
+    {
+        $io->writeln('');
+        $io->error($msg);
+        $io->writeln('');
     }
 }
