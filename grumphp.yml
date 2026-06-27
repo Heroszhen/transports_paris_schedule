@@ -17,6 +17,7 @@ grumphp:
       ignore_patterns:
         - /^public\/libs\/.*/
         - /^config\/reference\.php$/
+        - /^config\/bundles\.php$/
       triggered_by: [php]
     phpstan:
       configuration: 'phpstan.neon'

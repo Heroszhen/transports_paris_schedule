@@ -93,4 +93,17 @@ class StationRepository extends ServiceEntityRepository
             throw $e;
         }
     }
+
+    public function getAnotherStation(Station $station): ?Station
+    {
+        return $this->createQueryBuilder('station')
+            ->where('station.id != :id')
+            ->andWhere('station.label = :label')
+            ->andWhere('station.line = :line')
+            ->setParameter('id', $station->getId())
+            ->setParameter('label', $station->getLabel())
+            ->setParameter('line', $station->getLine())
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

@@ -5,6 +5,7 @@ const useStationStore = create((set) => ({
   transportTypes: [],
   lines: [],
   stations: [],
+  scheldules: null,
   setLines: (lines) => {
     set(() => ({
       lines: lines,
@@ -13,6 +14,11 @@ const useStationStore = create((set) => ({
   setStations: (stations) => {
     set(() => ({
       stations: stations,
+    }));
+  },
+  resetScheldules: () => {
+    set(() => ({
+      scheldules: null,
     }));
   },
   getTransportTypes: async () => {
@@ -54,6 +60,22 @@ const useStationStore = create((set) => ({
         set(() => ({
           stations: json['member'],
         }));
+      }
+    } catch {}
+  },
+  getStationScheldule: async (stationId) => {
+    try {
+      const response = await fetch(`/api/station/${stationId}/scheldule`, {
+        method: 'GET',
+        headers: getRequestHeaders(),
+      });
+      if (response.ok) {
+        const json = await response.json();
+        if (json.data) {
+          set(() => ({
+            scheldules: json.data,
+          }));
+        }
       }
     } catch {}
   },

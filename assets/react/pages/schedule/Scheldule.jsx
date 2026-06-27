@@ -13,6 +13,9 @@ const Scheldule = () => {
     setStations,
     stations,
     getStationsByLineId,
+    getStationScheldule,
+    scheldules,
+    resetScheldules,
   } = useStationStore();
   const { register, handleSubmit, reset, watch } = useForm();
   const transportTypeWatch = watch('transportType');
@@ -39,6 +42,7 @@ const Scheldule = () => {
         setLines([]);
         setStations([]);
         setLineKeywords('');
+        resetScheldules(null);
         await getLinesByTransportTypeId(transportTypeWatch);
       }
     })();
@@ -49,6 +53,7 @@ const Scheldule = () => {
       if (lineWatch) {
         setStations([]);
         setStationKeywords('');
+        resetScheldules(null);
         await getStationsByLineId(lineWatch);
       }
     })();
@@ -57,9 +62,28 @@ const Scheldule = () => {
   useEffect(() => {
     (async () => {
       if (stationWatch) {
+        resetScheldules(null);
+        await getStationScheldule(stationWatch);
       }
     })();
   }, [stationWatch]);
+
+  const removeDuplicatedStationsByLabel = () => {
+    const labels = [];
+    return stations.filter((station) => {
+      if (labels.includes(station.label.trim())) return false;
+      else {
+        labels.push(station.label);
+        return true;
+      }
+    });
+  };
+
+  const reloadScheldules = async () => {
+    if (stationWatch !== null) {
+      await getStationScheldule(stationWatch);
+    }
+  };
 
   const onSubmit = (data) => {
     console.log(data);
@@ -171,7 +195,7 @@ const Scheldule = () => {
                       />
                     </div>
                     <div className="d-flex justify-content-start flex-wrap max-h-[200px] overflow-auto">
-                      {stations
+                      {removeDuplicatedStationsByLabel()
                         .filter((station) => station.label.toLowerCase().includes(stationKeywords.toLocaleLowerCase()))
                         .sort((prev, next) =>
                           prev.label.localeCompare(next.label, undefined, { numeric: true, sensitivity: 'base' })
@@ -199,6 +223,34 @@ const Scheldule = () => {
                   </>
                 )}
               </div>
+            </div>
+            <div className="row mt-4 justify-content-between">
+              {scheldules !== null && (
+                <>
+                  <div className="col-12 bg-white pt-2 pb-2">
+                    <div className="d-flex justify-content-between">
+                      <h3>
+                        Horaires
+                        <br />
+                        时间表
+                      </h3>
+                      <i className="bi bi-arrow-clockwise cursor-pointer fs-1" onClick={() => reloadScheldules()}></i>
+                    </div>
+                  </div>
+                  {Object.keys(scheldules).map((schelduleKey) => {
+                    return (
+                      <div className="col-md-6 mt-2" key={schelduleKey}>
+                        <div className="ms-1 me-1 bg-white p-2">
+                          <h5>{schelduleKey}</h5>
+                          {scheldules[schelduleKey].map((scheldule, key) => {
+                            return <div key={key}>{scheldule.time}</div>;
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </>
+              )}
             </div>
           </form>
         </section>
