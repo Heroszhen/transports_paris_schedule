@@ -1,0 +1,48 @@
+#scheldule {
+    .transport-type-label {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: 1px solid white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        &.actived {
+            background-color: white;
+            color: #2f4e96;
+            font-weight: bold;
+        }
+    }
+
+    .line-label {
+        padding: 5px 10px;
+        border-radius: 8px;
+        border: 1px solid #3c91dc;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        color: #3c91dc;
+        &.actived {
+            background-color: #3c91dc;
+            color: white;
+            font-weight: bold;
+        }
+    }
+
+    .station-label {
+        padding: 5px 10px;
+        border-radius: 8px;
+        border: 1px solid white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        &.actived {
+            background-color: white;
+            color: #00a994;
+            font-weight: bold;
+        }
+    }
+}

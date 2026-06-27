@@ -4,23 +4,39 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\LineRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            paginationEnabled: false
+        ),
+    ],
+    normalizationContext: ['groups' => ['line:o']],
+)]
+#[ApiFilter(SearchFilter::class, properties: ['transportType' => 'exact'])]
 #[ORM\Entity(repositoryClass: LineRepository::class)]
 class Line
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['line:o'])]
     private int $id;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['line:o'])]
     private ?string $label = null;
 
     #[ORM\ManyToOne(inversedBy: 'lines')]
@@ -34,6 +50,7 @@ class Line
     private Collection $stations;
 
     #[ORM\Column(length: 255, nullable: true, unique: true)]
+    #[Groups(['line:o'])]
     private ?string $lineId = null;
 
     public function __construct()

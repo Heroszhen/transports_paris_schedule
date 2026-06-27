@@ -62,7 +62,8 @@
         "argsIgnorePattern": "^_" 
       }
     ],
-    "jsx-a11y/media-has-caption": "off"
+    "jsx-a11y/media-has-caption": "off",
+    "react-hooks/incompatible-library": "off"
   },
   "ignorePatterns": [
     "assets/controllers/*",
