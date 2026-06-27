@@ -57,6 +57,7 @@ const Scheldule = () => {
         setStationKeywords('');
         resetScheldules(null);
         await getStationsByLineId(lineWatch);
+        window.scrollTo(0, document.body.scrollHeight);
       }
     })();
   }, [lineWatch]);
@@ -66,6 +67,7 @@ const Scheldule = () => {
       if (stationWatch) {
         resetScheldules(null);
         await getStationScheldule(stationWatch);
+        window.scrollTo(0, document.body.scrollHeight);
       }
     })();
   }, [stationWatch]);
@@ -88,6 +90,7 @@ const Scheldule = () => {
         autoClose: 1000,
         theme: 'light',
       });
+      window.scrollTo(0, document.body.scrollHeight);
     }
   };
 
@@ -153,6 +156,7 @@ const Scheldule = () => {
                         type="text"
                         value={lineKeywords}
                         onChange={(e) => setLineKeywords(e.target.value)}
+                        placeholder="rechercher par ligne/查找线路"
                       />
                     </div>
                     <div className="d-flex justify-content-start flex-wrap max-h-[200px] overflow-auto">
@@ -198,6 +202,7 @@ const Scheldule = () => {
                         type="text"
                         value={stationKeywords}
                         onChange={(e) => setStationKeywords(e.target.value)}
+                        placeholder="rechercher par station/查找站名"
                       />
                     </div>
                     <div className="d-flex justify-content-start flex-wrap max-h-[200px] overflow-auto">
@@ -230,9 +235,9 @@ const Scheldule = () => {
                 )}
               </div>
             </div>
-            <div className="row mt-4 justify-content-between">
-              {scheldules !== null && (
-                <>
+            {scheldules !== null && (
+              <>
+                <div className="row mt-4 justify-content-between">
                   <div className="col-12 bg-white pt-2 pb-2">
                     <div className="d-flex justify-content-between">
                       <h3>
@@ -255,9 +260,9 @@ const Scheldule = () => {
                       </div>
                     );
                   })}
-                </>
-              )}
-            </div>
+                </div>
+              </>
+            )}
           </form>
         </section>
       </section>

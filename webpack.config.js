@@ -87,7 +87,7 @@ Encore
 if (process.env.APP_ENV === 'prod') {
   Encore.addPlugin(
     new CopyPlugin({
-      patterns: [{ from: 'assets/react/pwa', to: 'pwa' }],
+      patterns: [{ from: 'assets/pwa', to: 'pwa' }],
     })
   ).addPlugin(
     new WorkboxPlugin.GenerateSW({

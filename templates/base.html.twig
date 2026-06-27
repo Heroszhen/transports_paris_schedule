@@ -5,7 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Transports Paris{% endblock %}</title>
         <link rel="icon" href="/favicon.png">
+        {% if app_env == 'prod' %}
         <link rel="manifest" href="/build/pwa/manifest.json" />
+        {% endif %}
         {% block stylesheets %}
             {{ encore_entry_link_tags('style/main') }}
             {{ encore_entry_link_tags('main') }}
@@ -17,8 +19,6 @@
         <script src="https://cdn.jsdelivr.net/npm/idiomorph"></script>
         <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
         {% endif %}
-
-        <link rel="manifest" href="/build/pwa/manifest.json" />
     </head>
     <body>
         {% block body %}
