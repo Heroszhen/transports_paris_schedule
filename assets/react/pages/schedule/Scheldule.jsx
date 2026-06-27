@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import useStationStore from '../../stores/stationStore.js';
 import { useForm } from 'react-hook-form';
 import './Scheldule.scss';
+import { ToastContext } from '../../App.jsx';
 
 const Scheldule = () => {
   const {
@@ -23,6 +24,7 @@ const Scheldule = () => {
   const stationWatch = watch('station');
   const [lineKeywords, setLineKeywords] = useState('');
   const [stationKeywords, setStationKeywords] = useState('');
+  const { toast } = useContext(ToastContext);
 
   useEffect(() => {
     (async () => {
@@ -82,6 +84,10 @@ const Scheldule = () => {
   const reloadScheldules = async () => {
     if (stationWatch !== null) {
       await getStationScheldule(stationWatch);
+      toast.success('Actualisé/已更新', {
+        autoClose: 1000,
+        theme: 'light',
+      });
     }
   };
 
