@@ -27,7 +27,7 @@ class PrimService
 
         $getScheldule = function (HttpClientInterface $httpClient, Station $station) use (&$scheldules) {
             $tab = explode(':', $station->getStopId() ?? '');
-            $code = $tab[1];
+            $code = end($tab);
             $monitoringRef = self::MONITORING_PREFIX.$code.':';
             $query = ['MonitoringRef' => $monitoringRef];
 
@@ -47,9 +47,9 @@ class PrimService
                         $journey = $visit['MonitoredVehicleJourney'];
                         $call = $journey['MonitoredCall'];
                         $destination = $journey['DestinationName'][0]['value'];
-
+                        $expectedTime = isset($call['ExpectedArrivalTime']) ? $call['ExpectedArrivalTime'] : $call['ExpectedDepartureTime'];
                         $scheldules[$destination][] = [
-                            'time' => (new \DateTime($call['ExpectedArrivalTime']))->modify('+2 hours')->format('H:i'),
+                            'time' => (new \DateTime($expectedTime))->modify('+2 hours')->format('H:i'),
                             'status' => $call['DepartureStatus'],
                             'isRealTime' => true,
                         ];
