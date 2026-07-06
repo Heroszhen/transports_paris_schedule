@@ -41,8 +41,8 @@ class PrimService
 
                 if (Response::HTTP_OK === $response->getStatusCode()) {
                     $data = $response->toArray();
-
                     $visits = $data['Siri']['ServiceDelivery']['StopMonitoringDelivery'][0]['MonitoredStopVisit'] ?? [];
+
                     foreach ($visits as $visit) {
                         $journey = $visit['MonitoredVehicleJourney'];
                         $call = $journey['MonitoredCall'];

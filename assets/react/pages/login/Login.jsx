@@ -13,6 +13,7 @@ const Login = () => {
     formState: { errors },
     reset,
   } = useForm();
+  const [pending, setPending] = useState(false);
 
   useEffect(() => {
     if (null !== user) navigate('/horaires');
@@ -26,8 +27,10 @@ const Login = () => {
   }, []);
 
   const onSubmit = async (data) => {
+    setPending(true);
     localStorage.removeItem('token');
     await getAuth(data);
+    setPending(false);
   };
 
   return (
@@ -94,7 +97,7 @@ const Login = () => {
             )}
           </div>
           <div className="col-12 d-grid gap-2 mb-3">
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn btn-primary" disabled={pending}>
               Envoyer/发送
             </button>
           </div>

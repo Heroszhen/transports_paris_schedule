@@ -101,7 +101,7 @@ const Scheldule = () => {
   return (
     <>
       <section id="scheldule">
-        <div className="container mb-4">
+        <div className="container mb-4 pt-2">
           <div className="row">
             <h1 className="col-12 text-center">
               Horaires RER et Transilien

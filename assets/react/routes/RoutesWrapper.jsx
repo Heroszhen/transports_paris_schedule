@@ -3,6 +3,7 @@ import LoginGuard from './LoginGuard.jsx';
 
 import Login from '../pages/login/Login.jsx';
 import Scheldule from '../pages/schedule/Scheldule.jsx';
+import Logout from '../pages/logout/Logout.jsx';
 
 const RoutesWrapper = (props) => {
   return (
@@ -10,6 +11,7 @@ const RoutesWrapper = (props) => {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/404" element={<Login />} />
+        <Route path="/logout" element={<Logout />} />
         {props.canQuery && (
           <>
             <Route element={<LoginGuard />}>
