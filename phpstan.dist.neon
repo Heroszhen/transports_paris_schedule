@@ -15,8 +15,9 @@ parameters:
     tmpDir: var/cache/dev
     paths:
         - src
-    excludePaths:
         - tests
+    excludePaths:
+        - tests/bootstrap.php
     treatPhpDocTypesAsCertain: false
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
