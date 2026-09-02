@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             read: false
         ),
         new Get(
-            security: "is_granted('ROLE_ADMIN') or object.owner == user"
+            security: "is_granted('ROLE_ADMIN') or object == user"
         ),
     ],
     normalizationContext: ['groups' => ['user:read']],

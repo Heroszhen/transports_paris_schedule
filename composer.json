@@ -87,6 +87,7 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.95",
+        "justinrainbow/json-schema": "^6.10",
         "phpro/grumphp": "^2.21",
         "phpstan/phpstan": "^2.2",
         "phpstan/phpstan-symfony": "^2.0",
