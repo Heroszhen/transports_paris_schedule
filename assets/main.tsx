@@ -1,6 +1,7 @@
+import React from 'react';
 import 'uno.css';
 import { createRoot } from 'react-dom/client';
-import App from './react/App.jsx';
+import App from './react/App';
 import { BrowserRouter } from 'react-router-dom';
 // Bootstrap Bundle JS
 import 'bootstrap/dist/js/bootstrap.bundle.min';
@@ -22,6 +23,7 @@ if ('serviceWorker' in navigator && process.env.APP_ENV === 'prod') {
         console.log('SW registered: ', registration);
         registration.onupdatefound = () => {
           const installingWorker = registration.installing;
+          if (installingWorker === null) return;
           installingWorker.onstatechange = () => {
             if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
               // window.location.reload();

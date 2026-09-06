@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import useUserStore, { getAuth } from '../../stores/userStore.js';
+import useUserStore, { getAuth, IAuth } from '../../stores/userStore';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 const Login = () => {
   const { user } = useUserStore();
   const navigate = useNavigate();
-  const [passwordType, setPasswordType] = useState('password');
+  const [passwordType, setPasswordType] = useState<string>('password');
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm();
+  } = useForm<IAuth>();
   const [pending, setPending] = useState(false);
 
   useEffect(() => {
@@ -21,12 +21,12 @@ const Login = () => {
 
   useEffect(() => {
     reset({
-      email: null,
-      password: null,
+      email: '',
+      password: '',
     });
   }, []);
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: IAuth) => {
     setPending(true);
     localStorage.removeItem('token');
     await getAuth(data);
@@ -60,7 +60,6 @@ const Login = () => {
               type="email"
               className="form-control"
               id="email"
-              name="email"
               {...register('email', {
                 required: { value: true, message: 'Le champ est obligatoire' },
                 pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
@@ -81,7 +80,6 @@ const Login = () => {
                 type={passwordType}
                 className="form-control"
                 id="password"
-                name="password"
                 autoComplete="off"
                 {...register('password', { required: { value: true, message: 'Le champ est obligatoire' } })}
               />

@@ -1,8 +1,14 @@
 import React, { useEffect, useState, useContext } from 'react';
-import useStationStore from '../../stores/stationStore.js';
+import useStationStore from '../../stores/stationStore';
 import { useForm } from 'react-hook-form';
 import './Scheldule.scss';
-import { ToastContext } from '../../App.jsx';
+import { ToastContext } from '../../App';
+
+type formType = {
+  transportType: string | null;
+  line: string | null;
+  station: string | null;
+};
 
 const Scheldule = () => {
   const {
@@ -18,7 +24,7 @@ const Scheldule = () => {
     scheldules,
     resetScheldules,
   } = useStationStore();
-  const { register, handleSubmit, reset, watch } = useForm();
+  const { register, handleSubmit, reset, watch } = useForm<formType>();
   const transportTypeWatch = watch('transportType');
   const lineWatch = watch('line');
   const stationWatch = watch('station');
@@ -44,8 +50,8 @@ const Scheldule = () => {
         setLines([]);
         setStations([]);
         setLineKeywords('');
-        resetScheldules(null);
-        await getLinesByTransportTypeId(transportTypeWatch);
+        resetScheldules();
+        await getLinesByTransportTypeId(parseInt(transportTypeWatch));
       }
     })();
   }, [transportTypeWatch]);
@@ -55,8 +61,8 @@ const Scheldule = () => {
       if (lineWatch) {
         setStations([]);
         setStationKeywords('');
-        resetScheldules(null);
-        await getStationsByLineId(lineWatch);
+        resetScheldules();
+        await getStationsByLineId(parseInt(lineWatch));
         window.scrollTo(0, document.body.scrollHeight);
       }
     })();
@@ -65,15 +71,15 @@ const Scheldule = () => {
   useEffect(() => {
     (async () => {
       if (stationWatch) {
-        resetScheldules(null);
-        await getStationScheldule(stationWatch);
+        resetScheldules();
+        await getStationScheldule(parseInt(stationWatch));
         window.scrollTo(0, document.body.scrollHeight);
       }
     })();
   }, [stationWatch]);
 
   const removeDuplicatedStationsByLabel = () => {
-    const labels = [];
+    const labels: string[] = [];
     return stations.filter((station) => {
       if (labels.includes(station.label.trim())) return false;
       else {
@@ -85,7 +91,7 @@ const Scheldule = () => {
 
   const reloadScheldules = async () => {
     if (stationWatch !== null) {
-      await getStationScheldule(stationWatch);
+      await getStationScheldule(parseInt(stationWatch));
       toast.success('Actualisé/已更新', {
         autoClose: 1000,
         theme: 'light',
@@ -94,8 +100,9 @@ const Scheldule = () => {
     }
   };
 
-  const onSubmit = (data) => {
-    console.log(data);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
+  const onSubmit = (data: formType) => {
+    // console.log(data);
   };
 
   return (

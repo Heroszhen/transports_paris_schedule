@@ -1,11 +1,11 @@
 import React, { useEffect, useState, createContext } from 'react';
 import './App.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
-import useUserStore, { getUser } from './stores/userStore.js';
-import RoutesWrapper from './routes/RoutesWrapper.jsx';
+import useUserStore, { getUser } from './stores/userStore';
+import RoutesWrapper from './routes/RoutesWrapper';
 import { ToastContainer, toast } from 'react-toastify';
 
-export const ToastContext = createContext();
+export const ToastContext = createContext({ toast });
 
 function App() {
   const [canQuery, setCanQuery] = useState(false);
@@ -19,11 +19,11 @@ function App() {
       window.fetch = async (...args) => {
         const [url, options = {}] = args;
 
-        if (options.method.toLowerCase() === 'patch') {
-          options.headers['Content-Type'] = 'application/merge-patch+json';
+        if (options?.method?.toLowerCase() === 'patch' && options.headers instanceof Headers) {
+          options.headers.set('Content-Type', 'application/merge-patch+json');
         }
 
-        const response = await originalFetch.apply(this, [url, options]);
+        const response = await originalFetch(url, options);
         const clonedResponse = response.clone();
         if (clonedResponse.ok === false) {
           try {

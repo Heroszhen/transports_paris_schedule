@@ -1,11 +1,15 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import LoginGuard from './LoginGuard.jsx';
+import LoginGuard from './LoginGuard';
 
-import Login from '../pages/login/Login.jsx';
-import Scheldule from '../pages/schedule/Scheldule.jsx';
-import Logout from '../pages/logout/Logout.jsx';
+import Login from '../pages/login/Login';
+import Scheldule from '../pages/schedule/Scheldule';
+import Logout from '../pages/logout/Logout';
 
-const RoutesWrapper = (props) => {
+interface IProps {
+  canQuery: boolean;
+}
+
+const RoutesWrapper = (props: IProps) => {
   return (
     <>
       <Routes>
