@@ -34,6 +34,9 @@ export type IStation = ApiPlatformEntityContext & {
   stopId: string;
 };
 
+/*
 export type IScheldule = {
   [station: string]: { status: string; time: string }[];
-};
+};*/
+
+export type IScheldule = Record<string, { status: string; time: string }[]>;

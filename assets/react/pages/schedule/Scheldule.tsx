@@ -28,8 +28,8 @@ const Scheldule = () => {
   const transportTypeWatch = watch('transportType');
   const lineWatch = watch('line');
   const stationWatch = watch('station');
-  const [lineKeywords, setLineKeywords] = useState('');
-  const [stationKeywords, setStationKeywords] = useState('');
+  const [lineKeywords, setLineKeywords] = useState<string>('');
+  const [stationKeywords, setStationKeywords] = useState<string>('');
   const { toast } = useContext(ToastContext);
 
   useEffect(() => {

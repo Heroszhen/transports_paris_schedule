@@ -8,7 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 export const ToastContext = createContext({ toast });
 
 function App() {
-  const [canQuery, setCanQuery] = useState(false);
+  const [canQuery, setCanQuery] = useState<boolean>(false);
   const reactLocation = useLocation();
   const navigate = useNavigate();
   const { fetch: originalFetch } = window;
