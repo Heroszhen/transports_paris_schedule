@@ -94,6 +94,12 @@
             "./bin/phpunit"
         ]
     },
+    "ramsey/uuid-doctrine": {
+        "version": "2.1.0"
+    },
+    "stof/doctrine-extensions-bundle": {
+        "version": "v1.15.3"
+    },
     "symfony/console": {
         "version": "7.4",
         "recipe": {
