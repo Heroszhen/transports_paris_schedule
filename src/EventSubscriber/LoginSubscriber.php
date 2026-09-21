@@ -11,6 +11,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class LoginSubscriber implements EventSubscriberInterface
 {
@@ -18,6 +19,7 @@ class LoginSubscriber implements EventSubscriberInterface
         private EntityManagerInterface $em,
         private RequestStack $requestStack,
         private LoggerInterface $log,
+        private HttpClientInterface $httpClient,
     ) {
     }
 
@@ -43,9 +45,21 @@ class LoginSubscriber implements EventSubscriberInterface
             return;
         }
 
+        $ip = $request->getClientIp();
+        $ipInfo = [];
+        try {
+            $response = $this->httpClient->request('GET', "http://ip-api.com/json/{$ip}");
+            $ipInfo = $response->toArray();
+        } catch (\Exception $e) {
+            $this->log->error('LoginSubscriber: ip error', ['message' => $e->getMessage()]);
+        }
+
         $loginLog = (new LoginLog())
             ->setUser($user)
-            ->setIp($request->getClientIp());
+            ->setIp($ip)
+            ->setCountry($ipInfo['country'] ?? null)
+            ->setRegion($ipInfo['regionName'] ?? null)
+            ->setCity($ipInfo['city'] ?? null);
 
         $this->em->persist($loginLog);
         $this->em->flush();
