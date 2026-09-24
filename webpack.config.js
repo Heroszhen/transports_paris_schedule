@@ -63,7 +63,11 @@ Encore
     config.corejs = '3.38';
   })
   .configureDefinePlugin((options) => {
-    options['process.env'] = JSON.stringify(process.env); //get variables from env file for front
+    const frontEnv = {};
+    for (let key in process.env) {
+      if (key.includes('_FRONT') || key === 'APP_ENV') frontEnv[key] = process.env[key];
+    }
+    options['process.env'] = JSON.stringify(frontEnv);
   })
 
   // enables Sass/SCSS support
@@ -84,7 +88,6 @@ Encore
   //.autoProvidejQuery()
 
   .addPlugin(UnoCSS({ configFile: './uno.config.js' }));
-
 if (process.env.APP_ENV === 'prod') {
   Encore.addPlugin(
     new CopyPlugin({

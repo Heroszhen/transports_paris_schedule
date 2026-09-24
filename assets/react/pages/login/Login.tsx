@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import useUserStore, { getAuth, IAuth } from '../../stores/userStore';
+import useUserStore, { getAuth, getGmailLoginToken, IAuth } from '../../stores/userStore';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useGoogleLogin, TokenResponse } from '@react-oauth/google';
 
 const Login = () => {
   const { user } = useUserStore();
@@ -32,6 +33,13 @@ const Login = () => {
     await getAuth(data);
     setPending(false);
   };
+
+  const doLoginWithGmail = useGoogleLogin({
+    onSuccess: async (tokenResponse: TokenResponse) => {
+      console.log(tokenResponse);
+      await getGmailLoginToken(tokenResponse);
+    },
+  });
 
   return (
     <>
@@ -95,8 +103,13 @@ const Login = () => {
             )}
           </div>
           <div className="col-12 d-grid gap-2 mb-3">
-            <button type="submit" className="btn btn-primary" disabled={pending}>
+            <button type="submit" className="btn btn-primary mb-3" disabled={pending}>
               Envoyer/发送
+            </button>
+            <button type="button" className="btn btn-outline-danger" onClick={() => doLoginWithGmail()}>
+              Connexion avec Google
+              <br />
+              通过谷歌登陆
             </button>
           </div>
         </form>

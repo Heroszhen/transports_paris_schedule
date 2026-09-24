@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { getRequestHeaders } from '../services/data';
 import { ApiPlatformContext, IUser } from '../models/interfaces';
+import { TokenResponse } from '@react-oauth/google';
 
 export type IAuth = {
   email: string;
@@ -55,4 +56,22 @@ export const getUser = async () => {
     const json: ApiPlatformContext<IUser> = await response.json();
     useUserStore.setState((state) => ({ ...state, user: json }));
   } catch {}
+};
+
+export const getGmailLoginToken = async (data: TokenResponse) => {
+  try {
+    const response = await fetch(`/api/security/get-gmail-login-token`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+
+    if (response.ok) {
+      const json: { token: string } = await response.json();
+      localStorage.setItem('token', JSON.stringify({ token: json.token }));
+      await getUser();
+
+      return true;
+    }
+  } catch {}
+  return false;
 };

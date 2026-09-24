@@ -5,13 +5,20 @@ import App from './react/App';
 import { BrowserRouter } from 'react-router-dom';
 // Bootstrap Bundle JS
 import 'bootstrap/dist/js/bootstrap.bundle.min';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
+if (!process.env.GOOGLE_CLIENT_ID_FRONT) {
+  throw new Error('GOOGLE_CLIENT_ID not found');
+}
 
 const root = document.getElementById('root');
 if (root) {
   createRoot(root).render(
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID_FRONT}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </GoogleOAuthProvider>
   );
 }
 
