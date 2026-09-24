@@ -3,6 +3,7 @@ import useStationStore from '../../stores/stationStore';
 import { useForm } from 'react-hook-form';
 import './Scheldule.scss';
 import { ToastContext } from '../../App';
+import { useNavigate } from 'react-router-dom';
 
 type formType = {
   transportType: string | null;
@@ -31,6 +32,7 @@ const Scheldule = () => {
   const [lineKeywords, setLineKeywords] = useState<string>('');
   const [stationKeywords, setStationKeywords] = useState<string>('');
   const { toast } = useContext(ToastContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -110,11 +112,27 @@ const Scheldule = () => {
       <section id="scheldule">
         <div className="container mb-4 pt-2">
           <div className="row">
-            <h1 className="col-12 text-center">
+            <h1 className="col-12 text-center mb-3">
               Horaires RER et Transilien
               <br />
               巴黎公车时刻表
             </h1>
+            <div className="col-12 text-end">
+              <div className="dropdown">
+                <button
+                  className="btn btn-info text-white dropdown-toggle"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"></button>
+                <ul className="dropdown-menu">
+                  <li>
+                    <div className="dropdown-item cursor-pointer" onClick={() => navigate('/logout')}>
+                      Déconnexion
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
         <section className="bg-[#ededed] pt-4 pb-4">

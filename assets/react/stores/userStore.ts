@@ -58,7 +58,7 @@ export const getUser = async () => {
   } catch {}
 };
 
-export const getGmailLoginToken = async (data: TokenResponse) => {
+export const getGmailLoginToken = async (data: TokenResponse): Promise<boolean> => {
   try {
     const response = await fetch(`/api/security/get-gmail-login-token`, {
       method: 'POST',
