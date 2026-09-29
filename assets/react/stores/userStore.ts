@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { getRequestHeaders } from '../services/data';
-import { ApiPlatformContext, IUser } from '../models/interfaces';
+import { IUser } from '../models/interfaces';
 import { TokenResponse } from '@react-oauth/google';
 
 export type IAuth = {
@@ -9,9 +9,9 @@ export type IAuth = {
 };
 
 interface UserState {
-  user: ApiPlatformContext<IUser> | null;
+  user: IUser | null;
   login: boolean;
-  setUser(newUser: ApiPlatformContext<IUser> | null): void;
+  setUser(newUser: IUser | null): void;
 }
 
 const useUserStore = create<UserState>((set) => ({
@@ -53,7 +53,7 @@ export const getUser = async () => {
       headers: getRequestHeaders(),
     });
 
-    const json: ApiPlatformContext<IUser> = await response.json();
+    const json: IUser = await response.json();
     useUserStore.setState((state) => ({ ...state, user: json }));
   } catch {}
 };
