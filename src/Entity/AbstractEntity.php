@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Repository\AbstractEntityRepository;
 use App\Traits\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\MappedSuperclass]
-#[ORM\Entity(repositoryClass: AbstractEntityRepository::class)]
 abstract class AbstractEntity
 {
     use TimestampableTrait;
