@@ -7,16 +7,22 @@ import { BrowserRouter } from 'react-router-dom';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
 if (!process.env.GOOGLE_CLIENT_ID_FRONT) {
   throw new Error('GOOGLE_CLIENT_ID not found');
 }
 
 const root = document.getElementById('root');
 if (root) {
+  const queryClient = new QueryClient();
+  
   createRoot(root).render(
     <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID_FRONT}>
       <BrowserRouter>
-        <App />
+        <QueryClientProvider client={queryClient}>
+          <App />
+        </QueryClientProvider>
       </BrowserRouter>
     </GoogleOAuthProvider>
   );
