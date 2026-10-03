@@ -89,6 +89,7 @@
         }
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^4.3",
         "friendsofphp/php-cs-fixer": "^3.95",
         "justinrainbow/json-schema": "^6.10",
         "phpro/grumphp": "^2.21",
@@ -97,6 +98,7 @@
         "phpunit/phpunit": "^11.5",
         "symfony/browser-kit": "7.4.*",
         "symfony/css-selector": "7.4.*",
-        "symfony/maker-bundle": "^1.67"
+        "symfony/maker-bundle": "^1.67",
+        "zenstruck/foundry": "^2.13"
     }
 }
