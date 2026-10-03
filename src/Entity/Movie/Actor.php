@@ -16,6 +16,7 @@ use App\Repository\Movie\ActorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(
     order: ['id' => 'DESC'],
@@ -34,6 +35,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Actor extends AbstractEntity
 {
     #[ORM\Column(length: 255)]
+    #[Groups(['actor:write', 'actor:read'])]
     private ?string $name = null;
 
     /**
