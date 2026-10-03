@@ -36,7 +36,6 @@ const Login = () => {
 
   const doLoginWithGmail = useGoogleLogin({
     onSuccess: async (tokenResponse: TokenResponse) => {
-      console.log(tokenResponse);
       await getGmailLoginToken(tokenResponse);
     },
   });

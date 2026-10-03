@@ -3,7 +3,7 @@ const { presetUno } = require('unocss');
 module.exports = {
   presets: [presetUno()],
   shortcuts: {
-    'movie-section': 'bg-[#03233c] min-h-screen',
+    'movie-section': 'bg-[#03233c] min-h-screen text-white',
   },
   variants: [
     (matcher) =>

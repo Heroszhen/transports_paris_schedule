@@ -20,7 +20,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
-    order: ['id' => 'DESC'],
+    order: ['createdAt' => 'DESC'],
     security: "is_granted('ROLE_ADMIN')",
     normalizationContext: ['groups' => ['actor:read']],
     denormalizationContext: ['groups' => ['actor:write']],
