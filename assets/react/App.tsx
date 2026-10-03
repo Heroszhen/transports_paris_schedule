@@ -46,8 +46,7 @@ function App() {
           } catch {
           } finally {
             if (clonedResponse.status === 401 && reactLocation.pathname !== '/') {
-              setUser(null);
-              navigate('/');
+              navigate('/logout');
             }
           }
         }

@@ -22,7 +22,7 @@ const MainMenu = () => {
         <li>
           <hr className="dropdown-divider" />
         </li>
-        {user?.roles.includes('ROLE_ADMIN') && (
+        {user && user.roles.includes('ROLE_ADMIN') && (
           <>
             <li>
               <NavLink to="/acteurs" className="dropdown-item">
