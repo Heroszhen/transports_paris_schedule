@@ -4,12 +4,32 @@ declare(strict_types=1);
 
 namespace App\Entity\Movie;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Entity\AbstractEntity;
 use App\Repository\Movie\ActorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ApiResource(
+    order: ['id' => 'DESC'],
+    security: "is_granted('ROLE_ADMIN')",
+    normalizationContext: ['groups' => ['actor:read']],
+    denormalizationContext: ['groups' => ['actor:write']],
+    operations: [
+        new GetCollection(),
+        new Get(),
+        new Post(),
+        new Patch(),
+    ]
+)]
+#[ApiFilter(SearchFilter::class, properties: ['name' => 'ipartial'])]
 #[ORM\Entity(repositoryClass: ActorRepository::class)]
 class Actor extends AbstractEntity
 {
