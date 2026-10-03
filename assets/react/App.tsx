@@ -12,7 +12,7 @@ function App() {
   const reactLocation = useLocation();
   const navigate = useNavigate();
   const { fetch: originalFetch } = window;
-  const { user, setUser } = useUserStore();
+  const { user } = useUserStore();
 
   useEffect(() => {
     (async () => {
