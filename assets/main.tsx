@@ -1,5 +1,6 @@
 import React from 'react';
 import 'uno.css';
+import 'react-responsive-pagination/themes/classic.css';
 import { createRoot } from 'react-dom/client';
 import App from './react/App';
 import { BrowserRouter } from 'react-router-dom';

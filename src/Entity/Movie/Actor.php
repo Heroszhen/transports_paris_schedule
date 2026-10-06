@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Movie;
 
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
@@ -32,6 +33,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ]
 )]
 #[ApiFilter(SearchFilter::class, properties: ['name' => 'ipartial'])]
+#[ApiFilter(OrderFilter::class, properties: ['name', 'createdAt'])]
 #[ORM\Entity(repositoryClass: ActorRepository::class)]
 class Actor extends AbstractEntity
 {
