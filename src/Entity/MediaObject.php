@@ -40,7 +40,7 @@ class MediaObject extends AbstractEntity
     #[ORM\Column(length: 255)]
     private string $originalName;
 
-    #[Groups(['media_object:read', 'actor:read'])]
+    #[Groups(['media_object:read', 'actor:read', 'movie:read'])]
     #[ORM\Column(length: 255)]
     private string $name;
 

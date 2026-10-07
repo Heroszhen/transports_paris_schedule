@@ -4,21 +4,43 @@ declare(strict_types=1);
 
 namespace App\Entity\Movie;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Entity\AbstractEntity;
 use App\Entity\MediaObject;
 use App\Repository\Movie\MovieRepository;
+use App\State\MovieListProvider;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[ApiResource(
+    order: ['createdAt' => 'DESC'],
+    security: "is_granted('ROLE_ADMIN')",
+    normalizationContext: ['groups' => ['movie:read']],
+    denormalizationContext: ['groups' => ['movie:write']],
+    operations: [
+        new GetCollection(
+            provider: MovieListProvider::class,
+        ),
+        new Get(),
+        new Post(),
+        new Patch(),
+    ]
+)]
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
 class Movie extends AbstractEntity
 {
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
-    private ?string $title = null;
+    #[Groups(['movie:read'])]
+    private string $title;
 
     /**
      * @var Collection<int, Actor>
@@ -27,15 +49,19 @@ class Movie extends AbstractEntity
     private Collection $actors;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['movie:read'])]
     private ?\DateTimeImmutable $releaseDate = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['movie:read'])]
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Groups(['movie:read'])]
     private array $links = [];
 
     #[ORM\ManyToOne]
+    #[Groups(['movie:read'])]
     private ?MediaObject $photo = null;
 
     public function __construct()
@@ -43,7 +69,7 @@ class Movie extends AbstractEntity
         $this->actors = new ArrayCollection();
     }
 
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->title;
     }

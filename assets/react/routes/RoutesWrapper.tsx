@@ -7,6 +7,7 @@ import Scheldule from '../pages/schedule/Scheldule';
 import Logout from '../pages/logout/Logout';
 
 import { Actor } from '../pages/admin/actor/Actor';
+import { Movie } from '../pages/admin/movie/Movie';
 
 interface IProps {
   canQuery: boolean;
@@ -25,6 +26,7 @@ const RoutesWrapper = (props: IProps) => {
               <Route path="/horaires" element={<Scheldule />} />
               <Route element={<AdminGuard />}>
                 <Route path="/acteurs" element={<Actor />} />
+                <Route path="/films" element={<Movie />} />
               </Route>
             </Route>
             <Route path="*" element={<Navigate to="/404" replace />} />

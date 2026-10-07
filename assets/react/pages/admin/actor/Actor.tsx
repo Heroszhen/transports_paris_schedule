@@ -97,9 +97,6 @@ export const Actor = () => {
                               onClick={() => setActorIndex(index)}>
                               <i className="bi bi-pencil-fill"></i>
                             </button>
-                            <button className="btn btn-dark btn-sm text-white">
-                              <i className="bi bi-eye-fill"></i>
-                            </button>
                           </div>
                         </div>
                       </div>

@@ -6,6 +6,7 @@ namespace App\Repository\Movie;
 
 use App\Entity\Movie\Movie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -42,4 +43,50 @@ class MovieRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findMoviesByFilters(array $filters): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('movie');
+
+        $page = empty($filters['page']) ? 1 : $filters['page'];
+        $qb
+            ->setFirstResult(($page - 1) * 20)
+            ->setMaxResults(20);
+
+        if (!empty($filters['title']) && !empty($filters['actor'])) {
+            $qb
+                ->leftJoin('movie.actors', 'actors')
+                ->andWhere(
+                    $qb->expr()->orX(
+                        'movie.title LIKE :title',
+                        'actors.name LIKE :actor',
+                    )
+                )
+                ->setParameter('title', "%{$filters['title']}%")
+                ->setParameter('actor', "%{$filters['actor']}%");
+        } else {
+            if (!empty($filters['title'])) {
+                $qb
+                    ->andWhere('movie.title LIKE :title')
+                    ->setParameter('title', "%{$filters['title']}%");
+            }
+
+            if (!empty($filters['actor'])) {
+                $qb
+                    ->leftJoin('movie.actors', 'actors')
+                    ->andWhere('actors.name LIKE :actor')
+                    ->setParameter('actor', "%{$filters['actor']}%");
+            }
+        }
+
+        if (isset($filters['order']) && is_array($filters['order'])) {
+            foreach ($filters['order'] as $key => $value) {
+                $qb->orderBy("movie.{$key}", $value);
+            }
+        } else {
+            $qb->orderBy('movie.createdAt', 'DESC');
+        }
+
+        return $qb;
+    }
 }

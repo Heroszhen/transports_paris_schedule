@@ -20,7 +20,7 @@ abstract class AbstractEntity
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     #[Assert\Uuid]
-    #[Groups(['actor:read', 'media_object:read'])]
+    #[Groups(['actor:read', 'media_object:read', 'movie:read'])]
     private string $id;
 
     public function getId(): ?string
