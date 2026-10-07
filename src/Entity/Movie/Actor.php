@@ -13,6 +13,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Entity\AbstractEntity;
+use App\Entity\MediaObject;
 use App\Repository\Movie\ActorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -47,6 +48,10 @@ class Actor extends AbstractEntity
      */
     #[ORM\ManyToMany(targetEntity: Movie::class, mappedBy: 'actors')]
     private Collection $movies;
+
+    #[ORM\ManyToOne]
+    #[Groups(['actor:read', 'actor:write'])]
+    private ?MediaObject $photo = null;
 
     public function __construct()
     {
@@ -88,6 +93,18 @@ class Actor extends AbstractEntity
         if ($this->movies->removeElement($movie)) {
             $movie->removeActor($this);
         }
+
+        return $this;
+    }
+
+    public function getPhoto(): ?MediaObject
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?MediaObject $photo): static
+    {
+        $this->photo = $photo;
 
         return $this;
     }

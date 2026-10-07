@@ -13,3 +13,12 @@ export const getRequestHeaders = (isFormData = false, needToken = true) => {
   }
   return headers;
 };
+
+export const readFile = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(String(reader.result));
+    reader.onerror = (error) => reject(error);
+    reader.readAsDataURL(file);
+  });
+};

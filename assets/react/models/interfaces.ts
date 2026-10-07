@@ -41,9 +41,16 @@ export type IScheldule = {
 
 export type IScheldule = Record<string, { status: string; time: string }[]>;
 
+export type IMediaObject = ApiPlatformEntityContext & {
+  id: string;
+  name: string;
+  originalName: string;
+};
+
 export type IActor = ApiPlatformEntityContext & {
   id: string;
   name: string;
+  photo?: IMediaObject;
 };
 
 export type IMovie = ApiPlatformEntityContext & {
@@ -53,4 +60,5 @@ export type IMovie = ApiPlatformEntityContext & {
   releaseDate?: string;
   description?: string;
   links: string[];
+  photo?: IMediaObject;
 };

@@ -77,9 +77,16 @@ export const Actor = () => {
               <>
                 {actors.member.map((actor, index) => {
                   return (
-                    <div key={index} className="col-6 col-md-3 col-lg-2 mb-3">
+                    <div key={index} className="col-6 col-md-4 col-lg-3 mb-3">
                       <div className="card">
-                        <img src="..." className="card-img-top" alt="..." />
+                        {actor.photo && (
+                          <img
+                            src={`${process.env.AWS_FILE_PREFIX_FRONT}${actor.photo.name}`}
+                            className="card-img-top"
+                            alt="..."
+                          />
+                        )}
+
                         <div className="card-body text-center">
                           <h5 className="card-title mb-3">{actor.name}</h5>
                           <div className="d-flex justify-content-between">
@@ -115,7 +122,7 @@ export const Actor = () => {
         data-bs-keyboard="false"
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true">
-        <div className="modal-dialog">
+        <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header">
               <button

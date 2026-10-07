@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import useUserStore, { getUser } from './stores/userStore';
 import RoutesWrapper from './routes/RoutesWrapper';
 import { ToastContainer, toast } from 'react-toastify';
+import { Loader } from './components/loader/Loader';
 
 export const ToastContext = createContext({ toast });
 
@@ -13,10 +14,12 @@ function App() {
   const navigate = useNavigate();
   const { fetch: originalFetch } = window;
   const { user } = useUserStore();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
       window.fetch = async (...args) => {
+        setIsLoading(true);
         const [url, options = {}] = args;
 
         if (options?.method?.toLowerCase() === 'patch' && options.headers instanceof Headers) {
@@ -45,11 +48,15 @@ function App() {
             }
           } catch {
           } finally {
+            setIsLoading(false);
             if (clonedResponse.status === 401 && reactLocation.pathname !== '/') {
               navigate('/logout');
             }
           }
         }
+
+        setIsLoading(false);
+
         return response;
       };
 
@@ -80,6 +87,8 @@ function App() {
           theme="light"
         />
       </ToastContext.Provider>
+
+      {isLoading && <Loader />}
     </>
   );
 }

@@ -3,7 +3,7 @@
 
 rm -rf var
 
-tables=("movie_actor" "actor" "movie")
+tables=("movie_actor" "actor" "movie" "media_object")
 
 for t in "${tables[@]}"; 
 do

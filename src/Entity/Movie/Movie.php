@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Movie;
 
 use App\Entity\AbstractEntity;
+use App\Entity\MediaObject;
 use App\Repository\Movie\MovieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -33,6 +34,9 @@ class Movie extends AbstractEntity
 
     #[ORM\Column]
     private array $links = [];
+
+    #[ORM\ManyToOne]
+    private ?MediaObject $photo = null;
 
     public function __construct()
     {
@@ -107,6 +111,18 @@ class Movie extends AbstractEntity
     public function setLinks(array $links): static
     {
         $this->links = $links;
+
+        return $this;
+    }
+
+    public function getPhoto(): ?MediaObject
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?MediaObject $photo): static
+    {
+        $this->photo = $photo;
 
         return $this;
     }
