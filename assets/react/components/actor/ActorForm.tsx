@@ -48,7 +48,7 @@ export const ActorForm = (props: IProps) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)} className="mb-5">
+      <form onSubmit={handleSubmit(onSubmit)}>
         <h2>
           {!props.actor && `Ajouter un acteur`}
           {props.actor && `Modifier l'acteur ${props.actor.name}`}
@@ -66,13 +66,13 @@ export const ActorForm = (props: IProps) => {
             })}
           />
           {errors.name?.type === 'required' && <div className="alert alert-danger mt-2">{errors.name?.message}</div>}
-          <button type="submit" className="btn btn-primary mt-3">
-            Envoyer
-          </button>
         </div>
+        <button type="submit" className="btn btn-primary mt-3">
+          Envoyer
+        </button>
       </form>
       {props.actor && (
-        <section className="d-flex">
+        <section className="d-flex mt-5">
           <div className="p-1 w-[50%]">
             <h5 className="mb-3">Nouvelle actuelle</h5>
             <MediaObjectForm accept={'image/*'} type={'image/'} getNewFile={addPhoto} />

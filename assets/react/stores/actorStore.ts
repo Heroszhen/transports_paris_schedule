@@ -54,3 +54,21 @@ export const useEditActor = (actor: IActor | undefined) => {
     },
   });
 };
+
+export const useActorsName = () => {
+  return useQuery({
+    queryKey: ['list-actors-name'],
+    queryFn: async (): Promise<ApiPlatformContext<IActor>> => {
+      const response = await fetch(`/api/actors/name`, {
+        method: 'GET',
+        headers: getRequestHeaders(),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erreur ${response.status}`);
+      }
+
+      return await response.json();
+    },
+  });
+};

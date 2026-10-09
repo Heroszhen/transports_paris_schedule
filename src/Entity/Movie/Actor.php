@@ -27,6 +27,12 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['actor:read']],
     denormalizationContext: ['groups' => ['actor:write']],
     operations: [
+        new GetCollection(
+            uriTemplate: '/actors/name',
+            paginationEnabled: false,
+            normalizationContext: ['groups' => ['actor:name']],
+            order: ['name' => 'asc']
+        ),
         new GetCollection(),
         new Get(),
         new Post(),
@@ -39,7 +45,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Actor extends AbstractEntity
 {
     #[ORM\Column(length: 255)]
-    #[Groups(['actor:write', 'actor:read'])]
+    #[Groups(['actor:write', 'actor:read', 'movie:o', 'actor:name'])]
     #[Assert\NotBlank]
     private ?string $name = null;
 
@@ -50,7 +56,7 @@ class Actor extends AbstractEntity
     private Collection $movies;
 
     #[ORM\ManyToOne]
-    #[Groups(['actor:read', 'actor:write'])]
+    #[Groups(['actor:read', 'actor:write', 'movie:o'])]
     private ?MediaObject $photo = null;
 
     public function __construct()

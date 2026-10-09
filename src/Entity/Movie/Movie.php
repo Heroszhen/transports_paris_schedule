@@ -29,7 +29,9 @@ use Symfony\Component\Validator\Constraints as Assert;
         new GetCollection(
             provider: MovieListProvider::class,
         ),
-        new Get(),
+        new Get(
+            normalizationContext: ['groups' => ['movie:o']],
+        ),
         new Post(),
         new Patch(),
     ]
@@ -39,29 +41,30 @@ class Movie extends AbstractEntity
 {
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
-    #[Groups(['movie:read'])]
+    #[Groups(['movie:read', 'movie:o', 'movie:write'])]
     private string $title;
 
     /**
      * @var Collection<int, Actor>
      */
     #[ORM\ManyToMany(targetEntity: Actor::class, inversedBy: 'movies')]
+    #[Groups(['movie:o', 'movie:write'])]
     private Collection $actors;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['movie:read'])]
+    #[Groups(['movie:read', 'movie:o', 'movie:write'])]
     private ?\DateTimeImmutable $releaseDate = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['movie:read'])]
+    #[Groups(['movie:read', 'movie:o', 'movie:write'])]
     private ?string $description = null;
 
     #[ORM\Column]
-    #[Groups(['movie:read'])]
+    #[Groups(['movie:read', 'movie:o', 'movie:write'])]
     private array $links = [];
 
     #[ORM\ManyToOne]
-    #[Groups(['movie:read'])]
+    #[Groups(['movie:read', 'movie:o', 'movie:write'])]
     private ?MediaObject $photo = null;
 
     public function __construct()
