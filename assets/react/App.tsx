@@ -1,6 +1,6 @@
 import React, { useEffect, useState, createContext } from 'react';
 import './App.scss';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import useUserStore, { getUser } from './stores/userStore';
 import RoutesWrapper from './routes/RoutesWrapper';
 import { ToastContainer, toast } from 'react-toastify';
@@ -10,7 +10,6 @@ export const ToastContext = createContext({ toast });
 
 function App() {
   const [canQuery, setCanQuery] = useState<boolean>(false);
-  const reactLocation = useLocation();
   const navigate = useNavigate();
   const { fetch: originalFetch } = window;
   const { user } = useUserStore();
@@ -49,7 +48,7 @@ function App() {
           } catch {
           } finally {
             setIsLoading(false);
-            if (clonedResponse.status === 401 && reactLocation.pathname !== '/') {
+            if (clonedResponse.status === 401) {
               navigate('/logout');
             }
           }

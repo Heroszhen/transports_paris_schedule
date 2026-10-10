@@ -7,6 +7,7 @@ import { IActor, IMediaObject } from '../../../models/interfaces';
 import { useActorsName } from '../../../stores/actorStore';
 import { MediaObjectForm } from '../../../components/file/MediaObjectForm';
 import { useDeleteFile } from '../../../stores/fileStore';
+import { Select } from '../../../components/select/select';
 
 export type IMovieForm = {
   title?: string;
@@ -39,6 +40,8 @@ export const Movie = () => {
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
+    watch,
   } = useForm<IMovieForm>();
   const [formType, setFormType] = useState<FormTypeEnum | null>(null);
   const { mutate, mutateAsync } = useEditMovie();
@@ -258,7 +261,7 @@ export const Movie = () => {
                     {errors.releaseDate && <div className="alert alert-danger mt-2">{errors.releaseDate?.message}</div>}
                   </div>
                   <div className="col-md-12 mb-3">
-                    <label htmlFor="actors" className="form-label">
+                    {/* <label htmlFor="actors" className="form-label">
                       Actor*
                     </label>
                     <select
@@ -274,7 +277,18 @@ export const Movie = () => {
                         </option>
                       ))}
                     </select>
-                    {errors.actors && <div className="alert alert-danger mt-2">{errors.actors?.message}</div>}
+                    {errors.actors && <div className="alert alert-danger mt-2">{errors.actors?.message}</div>} */}
+                    <Select
+                      htmlFor="actors"
+                      labelText="Actors*"
+                      list={actorsNames?.member ?? []}
+                      optionValue={'@id'}
+                      optionText={'name'}
+                      activatedValues={watch('actors') ?? []}
+                      searchKeys={'name'}
+                      setValue={setValue}
+                      fieldName={'actors'}
+                    />
                   </div>
                   <div className="mb-3">
                     <label htmlFor="description" className="form-label">
