@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import MainMenu from '../../../components/MainMenu/MainMenu';
 import { Paginator } from '../../../components/paginator/Paginator';
-import { getMovie, useEditMovie, useMovies } from '../../../stores/movieStore';
+import { getMovie, useDeleteMovie, useEditMovie, useMovies } from '../../../stores/movieStore';
 import { useForm } from 'react-hook-form';
 import { IActor, IMediaObject } from '../../../models/interfaces';
 import { useActorsName } from '../../../stores/actorStore';
@@ -47,6 +47,7 @@ export const Movie = () => {
   const { mutate, mutateAsync } = useEditMovie();
   const { mutate: mutateDelteFile } = useDeleteFile();
   const modalBtnRef = useRef<HTMLButtonElement | null>(null);
+  const { mutate: mutateDeleteMovie } = useDeleteMovie();
 
   const searchMovies = (e: React.InputEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>) => {
     const value = e.currentTarget?.value ?? '';
@@ -199,7 +200,9 @@ export const Movie = () => {
                             <div className="btn btn-light btn-sm text-dark">
                               <i className="bi bi-eye"></i>
                             </div>
-                            <button className="btn btn-danger btn-sm text-white">
+                            <button
+                              className="btn btn-danger btn-sm text-white"
+                              onClick={() => mutateDeleteMovie(movie.id)}>
                               <i className="bi bi-trash3"></i>
                             </button>
                           </div>

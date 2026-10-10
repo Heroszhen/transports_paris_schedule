@@ -71,3 +71,23 @@ export const useEditMovie = () => {
     },
   });
 };
+
+export const useDeleteMovie = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (movieId: string): Promise<void> => {
+      const response = await fetch(`/api/movies/${movieId}`, {
+        method: 'DELETE',
+        headers: getRequestHeaders(),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erreur ${response.status}`);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['list-movies'] });
+    },
+  });
+};

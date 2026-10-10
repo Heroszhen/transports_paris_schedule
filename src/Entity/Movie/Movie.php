@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Movie;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
@@ -34,6 +35,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new Post(),
         new Patch(),
+        new Delete(),
     ]
 )]
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
