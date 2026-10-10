@@ -285,7 +285,7 @@ export const Movie = () => {
                       optionValue={'@id'}
                       optionText={'name'}
                       activatedValues={watch('actors') ?? []}
-                      searchKeys={'name'}
+                      searchByField={'name'}
                       setValue={setValue}
                       fieldName={'actors'}
                     />
