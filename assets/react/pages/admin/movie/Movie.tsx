@@ -3,11 +3,12 @@ import MainMenu from '../../../components/MainMenu/MainMenu';
 import { Paginator } from '../../../components/paginator/Paginator';
 import { getMovie, useDeleteMovie, useEditMovie, useMovies } from '../../../stores/movieStore';
 import { useForm } from 'react-hook-form';
-import { IActor, IMediaObject } from '../../../models/interfaces';
+import { IActor, IMediaObject, IMovie } from '../../../models/interfaces';
 import { useActorsName } from '../../../stores/actorStore';
 import { MediaObjectForm } from '../../../components/file/MediaObjectForm';
 import { useDeleteFile } from '../../../stores/fileStore';
 import { Select } from '../../../components/select/select';
+import { NavLink } from 'react-router-dom';
 
 export type IMovieForm = {
   title?: string;
@@ -124,6 +125,10 @@ export const Movie = () => {
     }
   };
 
+  const deleteMovie = (movie: IMovie) => {
+    if (window.confirm(`Veux-tu supprimer le film : ${movie.title} ?`)) mutateDeleteMovie(movie.id);
+  };
+
   return (
     <>
       <section className="movie-section">
@@ -178,7 +183,7 @@ export const Movie = () => {
               <>
                 {movies.member.map((movie, index) => {
                   return (
-                    <div key={index} className="col-6 col-md-3 col-lg-2 mb-3">
+                    <div key={index} className="col-6 col-md-4 col-lg-3 mb-3">
                       <div className="card">
                         {movie.photo && (
                           <img
@@ -197,12 +202,10 @@ export const Movie = () => {
                               onClick={() => createMovieForm(FormTypeEnum.MODIFY_MOVIE, index)}>
                               <i className="bi bi-pencil-fill"></i>
                             </button>
-                            <div className="btn btn-light btn-sm text-dark">
+                            <NavLink to={'/films/play/' + movie.id} className="btn btn-light btn-sm text-dark">
                               <i className="bi bi-eye"></i>
-                            </div>
-                            <button
-                              className="btn btn-danger btn-sm text-white"
-                              onClick={() => mutateDeleteMovie(movie.id)}>
+                            </NavLink>
+                            <button className="btn btn-danger btn-sm text-white" onClick={() => deleteMovie(movie)}>
                               <i className="bi bi-trash3"></i>
                             </button>
                           </div>

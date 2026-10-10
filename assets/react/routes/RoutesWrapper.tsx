@@ -8,6 +8,7 @@ import Logout from '../pages/logout/Logout';
 
 import { Actor } from '../pages/admin/actor/Actor';
 import { Movie } from '../pages/admin/movie/Movie';
+import { Play } from '../pages/admin/movie/Play';
 
 interface IProps {
   canQuery: boolean;
@@ -27,6 +28,7 @@ const RoutesWrapper = (props: IProps) => {
               <Route element={<AdminGuard />}>
                 <Route path="/acteurs" element={<Actor />} />
                 <Route path="/films" element={<Movie />} />
+                <Route path="/films/play/:id" element={<Play />} />
               </Route>
             </Route>
             <Route path="*" element={<Navigate to="/404" replace />} />
