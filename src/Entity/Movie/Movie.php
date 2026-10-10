@@ -65,7 +65,7 @@ class Movie extends AbstractEntity
     #[Groups(['movie:read', 'movie:o', 'movie:write'])]
     private array $links = [];
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['remove'])]
     #[Groups(['movie:read', 'movie:o', 'movie:write'])]
     private ?MediaObject $photo = null;
 
