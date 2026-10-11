@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import { readFile } from '../../services/data';
 import { useAddfile } from '../../stores/fileStore';
 import { IMediaObject } from '../../models/interfaces';
+import parse from 'html-react-parser';
 
 type IProps = {
   accept?: string;
   type?: string;
   getNewFile?: (file: IMediaObject) => void;
+  title?: string;
 };
 
-export const MediaObjectForm = ({ accept, type, getNewFile }: IProps) => {
+export const MediaObjectForm = ({ accept, type, getNewFile, title }: IProps) => {
   const { mutate } = useAddfile();
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
@@ -40,8 +42,12 @@ export const MediaObjectForm = ({ accept, type, getNewFile }: IProps) => {
   return (
     <section>
       <div className="mb-3">
+        <label htmlFor="formFile" className="form-label flex align-items-center">
+          {title && parse(title)}
+          <i className="bi bi-plus-circle fs-3 cursor-pointer ml-2"></i>
+        </label>
         <input
-          className="form-control form-control-sm"
+          className="form-control form-control-sm d-none"
           type="file"
           id="formFile"
           accept={accept}

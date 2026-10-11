@@ -18,6 +18,7 @@ use App\Repository\Movie\ActorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -42,6 +43,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiFilter(SearchFilter::class, properties: ['name' => 'ipartial'])]
 #[ApiFilter(OrderFilter::class, properties: ['name', 'createdAt'])]
 #[ORM\Entity(repositoryClass: ActorRepository::class)]
+#[UniqueEntity(fields: ['name'], message: 'An actor with this name already exists.')]
 class Actor extends AbstractEntity
 {
     #[ORM\Column(length: 255)]

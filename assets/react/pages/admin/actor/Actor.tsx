@@ -1,6 +1,6 @@
 import { useActors } from '../../../stores/actorStore';
 import { Paginator } from '../../../components/paginator/Paginator';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { ActorForm } from '../../../components/actor/ActorForm';
 import MainMenu from '../../../components/MainMenu/MainMenu';
 
@@ -9,6 +9,7 @@ export const Actor = () => {
   const [page, setPage] = useState(1);
   const { data: actors } = useActors({ page: page, name: filter.keywords, [`order[${filter.field}]`]: filter.order });
   const [actorIndex, setActorIndex] = useState<number | null>(null);
+  const modalBtn = useRef<HTMLButtonElement | null>(null);
 
   const searchActors = (e: React.InputEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>) => {
     const value = e.currentTarget?.value ?? '';
@@ -77,7 +78,7 @@ export const Actor = () => {
               <>
                 {actors.member.map((actor, index) => {
                   return (
-                    <div key={index} className="col-6 col-md-4 col-lg-3 mb-3">
+                    <div key={index} className="col-6 col-md-3 col-lg-2 mb-3">
                       <div className="card">
                         {actor.photo && (
                           <img
@@ -127,10 +128,14 @@ export const Actor = () => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-                onClick={() => setActorIndex(null)}></button>
+                onClick={() => setActorIndex(null)}
+                ref={modalBtn}></button>
             </div>
             <div className="modal-body">
-              <ActorForm actor={actorIndex !== null && actors?.member ? actors.member[actorIndex] : undefined} />
+              <ActorForm
+                actor={actorIndex !== null && actors?.member ? actors.member[actorIndex] : undefined}
+                modalBtn={modalBtn}
+              />
             </div>
           </div>
         </div>

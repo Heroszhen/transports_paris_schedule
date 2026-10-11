@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { IActor, IMediaObject } from '../../models/interfaces';
 import { useForm } from 'react-hook-form';
 import { useEditActor } from '../../stores/actorStore';
@@ -7,6 +7,7 @@ import { useDeleteFile } from '../../stores/fileStore';
 
 type IProps = {
   actor?: IActor;
+  modalBtn?: React.RefObject<HTMLElement | null>;
 };
 
 export type IActorForm = {
@@ -31,7 +32,11 @@ export const ActorForm = (props: IProps) => {
   }, [props.actor?.name]);
 
   const onSubmit = async (data: IActorForm) => {
-    mutate(data);
+    mutate(data, {
+      onSuccess: () => {
+        if (!props.actor) props.modalBtn?.current?.click();
+      },
+    });
   };
 
   const addPhoto = async (newPhoto: IMediaObject) => {
@@ -74,8 +79,12 @@ export const ActorForm = (props: IProps) => {
       {props.actor && (
         <section className="d-flex mt-5">
           <div className="p-1 w-[50%]">
-            <h5 className="mb-3">Nouvelle actuelle</h5>
-            <MediaObjectForm accept={'image/*'} type={'image/'} getNewFile={addPhoto} />
+            <MediaObjectForm
+              accept={'image/*'}
+              type={'image/'}
+              getNewFile={addPhoto}
+              title={"<h5 className='mb-[0px]'>Nouvelle actuelle</h5>"}
+            />
           </div>
           <div className="p-1 w-[50%]">
             <h5 className="mb-3">Photo actuelle</h5>

@@ -1,5 +1,7 @@
 #! /bin/bash
 
+php bin/console c:w
+
 npm run clean:code
 
 winpty php vendor/bin/grumphp run --tasks=phpparser

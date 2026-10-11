@@ -59,10 +59,12 @@ class MovieRepository extends ServiceEntityRepository
                 ->andWhere(
                     $qb->expr()->orX(
                         'movie.title LIKE :title',
+                        'movie.description LIKE :description',
                         'actors.name LIKE :actor',
                     )
                 )
                 ->setParameter('title', "%{$filters['title']}%")
+                ->setParameter('description', "%{$filters['description']}%")
                 ->setParameter('actor', "%{$filters['actor']}%");
         } else {
             if (!empty($filters['title'])) {

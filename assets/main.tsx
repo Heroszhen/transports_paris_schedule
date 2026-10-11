@@ -16,7 +16,16 @@ if (!process.env.GOOGLE_CLIENT_ID_FRONT) {
 
 const root = document.getElementById('root');
 if (root) {
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: Infinity,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+        retry: false,
+      },
+    },
+  });
 
   createRoot(root).render(
     <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID_FRONT}>

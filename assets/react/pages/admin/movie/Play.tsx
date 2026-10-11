@@ -69,7 +69,7 @@ export const Play = () => {
                 <div className="w-full flex flex-wrap">
                   {movie.links.map((link, index) => (
                     <a key={index} className="block me-3 mb-3 fs-5" href={link} target="_blank" rel="noreferrer">
-                      lien {index + 1}
+                      Lien {index + 1}
                     </a>
                   ))}
                 </div>

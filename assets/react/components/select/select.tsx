@@ -11,6 +11,7 @@ type IProps<T, TForm extends FieldValues, TName extends FieldPath<TForm>> = {
   searchByField: keyof T;
   setValue: UseFormSetValue<TForm>;
   fieldName: TName;
+  reloadFunc?: () => void;
 };
 
 export const Select = <T, TForm extends FieldValues, TName extends FieldPath<TForm>>(
@@ -29,8 +30,11 @@ export const Select = <T, TForm extends FieldValues, TName extends FieldPath<TFo
 
   return (
     <>
-      <label htmlFor={props.htmlFor} className="form-label">
+      <label htmlFor={props.htmlFor} className="form-label flex mb-3">
         {props.labelText}
+        {props.reloadFunc && (
+          <i className="bi bi-arrow-clockwise cursor-pointer ml-2" onClick={() => props.reloadFunc?.()}></i>
+        )}
       </label>
       <input
         className="form-control form-control-sm mb-1"

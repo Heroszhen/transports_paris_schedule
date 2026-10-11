@@ -51,6 +51,7 @@ export const useEditActor = (actor: IActor | undefined) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['list-actors'] });
+      queryClient.invalidateQueries({ queryKey: ['list-actors-name'] });
     },
   });
 };

@@ -32,9 +32,10 @@ export const Movie = () => {
     page: page,
     title: filter.keywords,
     actor: filter.keywords,
+    description: filter.keywords,
     [`order[${filter.field}]`]: filter.order,
   });
-  const { data: actorsNames } = useActorsName();
+  const { data: actorsNames, refetch: refetchActorsNames } = useActorsName();
   const [movieIndex, setMovieIndex] = useState<number | null>(null);
   const {
     register,
@@ -303,7 +304,7 @@ export const Movie = () => {
                       {errors.actors && <div className="alert alert-danger mt-2">{errors.actors?.message}</div>} */}
                       <Select
                         htmlFor="actors"
-                        labelText="Actors*"
+                        labelText="Acteurs"
                         list={actorsNames?.member ?? []}
                         optionValue={'@id'}
                         optionText={'name'}
@@ -311,6 +312,7 @@ export const Movie = () => {
                         searchByField={'name'}
                         setValue={setValue}
                         fieldName={'actors'}
+                        reloadFunc={refetchActorsNames}
                       />
                     </div>
                     <div className="mb-3">
@@ -339,8 +341,12 @@ export const Movie = () => {
                 {movieIndex !== null && movies?.member?.[movieIndex] && (
                   <section className="d-flex mt-5">
                     <div className="p-1 w-[50%]">
-                      <h5 className="mb-3">Nouvelle actuelle</h5>
-                      <MediaObjectForm accept={'image/*'} type={'image/'} getNewFile={addPhoto} />
+                      <MediaObjectForm
+                        accept={'image/*'}
+                        type={'image/'}
+                        getNewFile={addPhoto}
+                        title={"<h5 className='mb-[0px]'>Nouvelle actuelle</h5>"}
+                      />
                     </div>
                     <div className="p-1 w-[50%]">
                       <h5 className="mb-3">Photo actuelle</h5>
