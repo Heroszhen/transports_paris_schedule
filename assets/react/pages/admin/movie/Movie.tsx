@@ -9,6 +9,7 @@ import { MediaObjectForm } from '../../../components/file/MediaObjectForm';
 import { useDeleteFile } from '../../../stores/fileStore';
 import { Select } from '../../../components/select/select';
 import { NavLink } from 'react-router-dom';
+import { ActorForm } from '../../../components/actor/ActorForm';
 
 export type IMovieForm = {
   title?: string;
@@ -50,6 +51,7 @@ export const Movie = () => {
   const { mutate: mutateDelteFile } = useDeleteFile();
   const modalBtnRef = useRef<HTMLButtonElement | null>(null);
   const { mutate: mutateDeleteMovie } = useDeleteMovie();
+  const [openedActorForm, setOpenedActorForm] = useState<boolean>(false);
 
   const searchMovies = (e: React.InputEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>) => {
     const value = e.currentTarget?.value ?? '';
@@ -251,6 +253,17 @@ export const Movie = () => {
                   {formType === FormTypeEnum.ADD_MOVIE && `Ajouter un film`}
                   {movieIndex !== null && `Modifier l'acteur ${movies?.member?.[movieIndex].title}`}
                 </h2>
+
+                {openedActorForm && (
+                  <div className="mb-5 mt-5 border border-black rounded p-3">
+                    <div className="text-end">
+                      {' '}
+                      <i className="bi bi-x-circle cursor-pointer" onClick={() => setOpenedActorForm(false)}></i>
+                    </div>
+                    <ActorForm />
+                  </div>
+                )}
+
                 <form onSubmit={handleSubmit(onSubmit)} className="container-fluid">
                   <div className="row">
                     <div className="col-12 mb-3">
@@ -283,6 +296,12 @@ export const Movie = () => {
                       {errors.releaseDate && (
                         <div className="alert alert-danger mt-2">{errors.releaseDate?.message}</div>
                       )}
+                    </div>
+                    <div className="col-12 mb-3">
+                      <div className="form-label cursor-pointer" onClick={() => setOpenedActorForm(true)}>
+                        Ajouter un actor
+                        <i className="bi bi-plus-circle ms-2"></i>
+                      </div>
                     </div>
                     <div className="col-md-12 mb-3">
                       {/* <label htmlFor="actors" className="form-label">
@@ -338,8 +357,9 @@ export const Movie = () => {
                     </div>
                   </div>
                 </form>
+
                 {movieIndex !== null && movies?.member?.[movieIndex] && (
-                  <section className="d-flex mt-5">
+                  <section className="d-flex mt-4">
                     <div className="p-1 w-[50%]">
                       <MediaObjectForm
                         accept={'image/*'}

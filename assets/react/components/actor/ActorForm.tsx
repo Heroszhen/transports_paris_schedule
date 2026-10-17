@@ -46,7 +46,10 @@ export const ActorForm = (props: IProps) => {
     if (newPhoto['@id']) {
       try {
         const oldFileId = actor.photo?.id;
-        await mutateAsync({ photo: newPhoto['@id'] });
+
+        const result = await mutateAsync({ photo: newPhoto['@id'] });
+        setActor(result);
+
         if (oldFileId) mutateDelteFile(oldFileId);
       } catch {}
     }

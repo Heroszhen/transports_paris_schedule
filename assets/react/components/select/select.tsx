@@ -30,7 +30,7 @@ export const Select = <T, TForm extends FieldValues, TName extends FieldPath<TFo
 
   return (
     <>
-      <label htmlFor={props.htmlFor} className="form-label flex mb-3">
+      <label htmlFor={props.htmlFor} className="form-label flex mb-2">
         {props.labelText}
         {props.reloadFunc && (
           <i className="bi bi-arrow-clockwise cursor-pointer ml-2" onClick={() => props.reloadFunc?.()}></i>
