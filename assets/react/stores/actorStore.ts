@@ -32,7 +32,7 @@ export const useActors = (params: null | Record<string, string | number> = null)
   });
 };
 
-export const useEditActor = (actor: IActor | undefined) => {
+export const useEditActor = (actor: IActor | null) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (newActor: IActorForm) => {

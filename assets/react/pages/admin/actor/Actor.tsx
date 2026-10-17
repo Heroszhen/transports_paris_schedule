@@ -10,6 +10,7 @@ export const Actor = () => {
   const { data: actors } = useActors({ page: page, name: filter.keywords, [`order[${filter.field}]`]: filter.order });
   const [actorIndex, setActorIndex] = useState<number | null>(null);
   const modalBtn = useRef<HTMLButtonElement | null>(null);
+  const [openedModal, setOpenedModal] = useState<boolean>(false);
 
   const searchActors = (e: React.InputEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>) => {
     const value = e.currentTarget?.value ?? '';
@@ -38,7 +39,8 @@ export const Actor = () => {
               <i
                 className="bi bi-plus-circle fs-3 cursor-pointer ml-2"
                 data-bs-toggle="modal"
-                data-bs-target="#staticBackdrop"></i>
+                data-bs-target="#staticBackdrop"
+                onClick={() => setOpenedModal(true)}></i>
             </h1>
             <div className="col-12 col-md-7 mb-2">
               <div className="d-flex justify-content-between">
@@ -95,7 +97,10 @@ export const Actor = () => {
                               className="btn btn-info btn-sm text-white"
                               data-bs-toggle="modal"
                               data-bs-target="#staticBackdrop"
-                              onClick={() => setActorIndex(index)}>
+                              onClick={() => {
+                                setActorIndex(index);
+                                setOpenedModal(true);
+                              }}>
                               <i className="bi bi-pencil-fill"></i>
                             </button>
                           </div>
@@ -128,14 +133,19 @@ export const Actor = () => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-                onClick={() => setActorIndex(null)}
+                onClick={() => {
+                  setActorIndex(null);
+                  setOpenedModal(false);
+                }}
                 ref={modalBtn}></button>
             </div>
             <div className="modal-body">
-              <ActorForm
-                actor={actorIndex !== null && actors?.member ? actors.member[actorIndex] : undefined}
-                modalBtn={modalBtn}
-              />
+              {openedModal && (
+                <ActorForm
+                  actor={actorIndex !== null && actors?.member ? actors.member[actorIndex] : undefined}
+                  modalBtn={modalBtn}
+                />
+              )}
             </div>
           </div>
         </div>
