@@ -1,6 +1,6 @@
 import React, { useEffect, useState, createContext } from 'react';
 import './App.scss';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import useUserStore, { getUser } from './stores/userStore';
 import RoutesWrapper from './routes/RoutesWrapper';
 import { ToastContainer, toast } from 'react-toastify';
@@ -14,6 +14,7 @@ function App() {
   const { fetch: originalFetch } = window;
   const { user } = useUserStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { pathname } = useLocation();
 
   useEffect(() => {
     (async () => {
@@ -85,6 +86,14 @@ function App() {
           pauseOnHover
           theme="light"
         />
+
+        {pathname !== '/' && (
+          <div
+            className="cursor-pointer fixed right-[50px] bottom-[50px] text-[#ccc6b9] bg-[#568672] w-[40px] h-[40px] flex justify-center items-center rounded-[50%] hover:bg-[#038674] hover:text-white"
+            onClick={() => navigate(-1)}>
+            <i className="bi bi-arrow-left"></i>
+          </div>
+        )}
       </ToastContext.Provider>
 
       {isLoading && <Loader />}
