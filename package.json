@@ -54,7 +54,8 @@
         "format": "prettier --write ./assets/**/*.{js,jsx,ts,tsx,css,md,json} --config ./.prettierrc.json",
         "lint": "eslint ./assets --ext .js,.jsx,.ts,.tsx",
         "lint:fix": "eslint ./assets --ext .js,.jsx,.ts,.tsx --fix",
-        "clean:code": "npm run format && npm run lint:fix"
+        "clean:code": "npm run format && npm run lint:fix",
+        "test:jest": "npx jest"
     },
     "dependencies": {
         "@react-oauth/google": "^0.13.5",

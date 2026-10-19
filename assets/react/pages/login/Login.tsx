@@ -43,7 +43,7 @@ const Login = () => {
   return (
     <>
       <section className="vh-100 d-flex justify-content-center align-items-center bg-[#b2cce5]">
-        <form className="bg-white p-3 rounded w-[320px]" onSubmit={handleSubmit(onSubmit)}>
+        <form name="login-form" className="bg-white p-3 rounded w-[320px]" onSubmit={handleSubmit(onSubmit)}>
           <section className="text-center">
             <div className="text-[#1a1a76]">RATP</div>
             <h2 className="mb-4 text-[#1a1a76]">
